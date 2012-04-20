@@ -2,6 +2,7 @@
 
 #include <matchmaker/client.h>
 #include <auv_msgs/IdentifyObjectAction.h>
+#include <tf/tf.h>
 
 #include <vision_msgs/DetectionArray.h>
 
@@ -140,9 +141,13 @@ public:
       if (detections_msg.detections[i].score > confidence)
       {
         confidence = detections_msg.detections[i].score;
-        object_pose_msg.pose.position.x = detections_msg.detections[i].image_pose.x;
-        object_pose_msg.pose.position.y = detections_msg.detections[i].image_pose.y;
-        object_pose_msg.pose.position.z = detections_msg.detections[i].scale;
+        tf::Quaternion orientation = tf::createQuaternionFromYaw(detections_msg.detections[i].image_pose.theta);
+        tf::Point position;
+        position.setX(detections_msg.detections[i].image_pose.x);
+        position.setY(detections_msg.detections[i].image_pose.y);
+        position.setZ(detections_msg.detections[i].scale);
+        tf::Pose pose(orientation, position);
+        tf::poseTFToMsg(pose, object_pose_msg.pose);
         confident_detection_found = true;
       }
     }
