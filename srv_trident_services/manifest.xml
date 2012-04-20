@@ -1,0 +1,18 @@
+<package>
+  <description brief="srv_trident_services">
+
+     srv_trident_services
+
+  </description>
+  <author>Stephan Wirth</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/srv_trident_services</url>
+  <depend package="matchmaker"/>
+  <depend package="auv_msgs"/>
+  <depend package="vision_msgs"/>
+  <depend package="actionlib"/>
+
+</package>
+
+
