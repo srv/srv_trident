@@ -1,0 +1,27 @@
+<launch>
+
+  <!--
+    static_transform_publisher x y z yaw pitch roll frame_id child_frame_id  period(milliseconds) 
+    static_transform_publisher x y z qx qy qz qw frame_id child_frame_id  period(milliseconds)
+  -->
+
+  <!-- using ROS standard frame for girona500 (x forward, y left, z up) -->
+  <!--
+  <node name="$(anon tf_publisher)" pkg="tf" type="static_transform_publisher"
+    args="1.00 0.06 -0.20 -1.5707 0 3.1416 /girona500 /stereo_down 100" />
+
+  <node name="$(anon tf_publisher)" pkg="tf" type="static_transform_publisher"
+    args="1.10 0.06 -0.10 -1.5707 0 -1.5707 /girona500 /stereo_forward 100" />
+
+  -->
+
+  <!-- using NED frame for base_link (x forward, y right, z down) -->
+  <node name="$(anon tf_publisher)" pkg="tf" type="static_transform_publisher"
+    args="1.00 -0.06 0.20 1.5707 0 0 /girona500 /stereo_down 100" />
+
+  <node name="$(anon tf_publisher)" pkg="tf" type="static_transform_publisher"
+    args="1.10 -0.06 0.10 1.5707 0 1.5707 /girona500 /stereo_forward 100" />
+
+
+</launch>
+

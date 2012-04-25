@@ -1,0 +1,21 @@
+<launch>
+
+  <arg name="topics" />
+  <arg name="dir" />
+  <arg name="prefix" />
+
+  <node pkg="rosbag" type="rosbag" name="recorder" output="screen"
+    args="record --split --size=1000 -o '$(arg dir)$(arg prefix)'
+      /stereo_down/left/image_raw
+      /stereo_down/left/camera_info
+      /stereo_down/right/image_raw
+      /stereo_down/right/camera_info
+      /stereo_forward/left/image_raw
+      /stereo_forward/left/camera_info
+      /stereo_forward/right/image_raw
+      /stereo_forward/right/camera_info
+      /motor_board/pressure
+      /motor_board/humidity	
+      $(arg topics)" />
+
+</launch>
