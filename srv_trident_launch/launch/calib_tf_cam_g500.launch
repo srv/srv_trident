@@ -1,0 +1,27 @@
+<launch>
+
+  <param name="/use_sim_time" value="true" />
+
+  <node name="cam_to_optical" pkg="tf" type="static_transform_publisher"
+    args="0 0.06 0 -1.57 0 -1.57 /stereo_down_camera /stereo_down 100" />
+
+  <node name="stereo_image_proc" pkg="stereo_image_proc" type="stereo_image_proc" ns="stereo_down" />
+
+  <node pkg="viso2_ros" type="stereo_odometer" name="stereo_odometer" output="screen">
+    <remap from="stereo" to="stereo_down" />
+    <remap from="image" to="image_rect_color" />
+    <param name="refinement" value="2"/>
+    <param name="nms_n" value="3"/>
+    <param name="nms_tau" value="80"/>
+    <param name="publish_tf" value="true" />
+    <param name="base_link_frame_id" value="stereo_down_camera" />
+  </node>
+
+  <node name="calib" pkg="extrinsic_calibration" type="tf_logger" output="screen">
+    <param name="~baseLinkFrame" value="/girona500" />
+    <param name="~odomFrame" value="/world" />
+    <param name="~kinectFrame" value="/stereo_down_camera" />
+    <param name="~worldFrame" value="/odom" />
+    <param name="~outputFileName" value="$(find srv_trident_launch)/calib_tf_log.txt" />
+  </node>
+</launch>
