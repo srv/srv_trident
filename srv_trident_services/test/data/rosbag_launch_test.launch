@@ -1,0 +1,4 @@
+<launch>
+  <node name="recorder" pkg="rosbag" type="record" args="/babble -O /tmp/collect_data_test.bag" />
+  <node name="babbler" pkg="roscpp_tutorials" type="babbler" />
+</launch>
