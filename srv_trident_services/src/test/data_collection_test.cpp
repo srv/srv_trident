@@ -43,10 +43,8 @@ TEST(CollectDataActionTest, runTest)
   while ((ros::Time::now() - start_time).toSec() < 5)
   {
     ros::spinOnce();
-    std::cout << "Service status: " << service->status.toString() << std::endl;
-    std::cout << "getServiceStatus: " << mm_client.getServiceStatus(service->id).toString();
   }
-  EXPECT_TRUE(service->status.hasValue(matchmaker::ServiceStatus::ACTIVE_BUSY));
+  EXPECT_TRUE(mm_client.getServiceStatus(service->id).hasValue(matchmaker::ServiceStatus::ACTIVE_BUSY));
   ROS_INFO("Stopping action.");
   std::cout << "Service status: " << service->status.toString() << std::endl;
 
