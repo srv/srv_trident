@@ -1,0 +1,12 @@
+<launch>
+
+  <node name="matchmaker_server" pkg="matchmaker" type="matchmaker_server" output="screen" />
+
+  <node name="data_collection" pkg="srv_trident_services" type="data_collection" output="screen">
+    <param name="rosbag_launch" value="$(find srv_trident_services)/test/data/rosbag_launch_test.launch" />
+  </node>
+
+  <test test-name="data_collection_test" pkg="srv_trident_services" type="data_collection_test"/>
+
+</launch>
+
