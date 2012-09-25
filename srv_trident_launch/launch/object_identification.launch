@@ -1,0 +1,21 @@
+<launch>
+
+  <arg name="image" default="stereo_down/left/image_rect_color" />
+
+  <node name="object_identification" pkg="srv_trident_services" type="object_identification" output="screen">
+    <remap from="detections" to="object_detector/detections" />
+  </node>
+
+  <node name="object_detector" pkg="nodelet" type="nodelet" args="standalone object_detection/Detector" output="screen" >
+    <remap from="image" to="$(arg image)" />
+    <remap from="training_data" to="trainer/training_data" />
+    <rosparam file="$(find object_detection)/cfg/color_detector_params.yaml" />
+    <rosparam file="$(find object_detection)/cfg/shape_detector_params.yaml" />
+    <param name="db_type" value="filesystem" />
+    <param name="connection_string" value="$(find object_detection)/models" />
+    <param name="show_images" value="false" />
+    <param name="models" value="target" />
+  </node>
+
+</launch>
+

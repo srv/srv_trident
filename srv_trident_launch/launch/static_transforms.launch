@@ -1,0 +1,9 @@
+<launch>
+  <include file="$(find srv_trident_launch)/launch/ros_g500_transforms.launch" />
+  <include file="$(find srv_trident_launch)/launch/calibrated_transforms.launch" />
+
+  <node name="cam_to_optical" pkg="tf" type="static_transform_publisher"
+    args="0 0.06 0 -1.57 0 -1.57 /stereo_down_camera /stereo_down 100" />
+
+</launch>
+

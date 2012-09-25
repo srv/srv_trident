@@ -1,0 +1,14 @@
+<package>
+  <description brief="srv_trident_launch">
+
+     srv_trident_launch
+
+  </description>
+  <author>Stephan Wirth</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/srv_trident_launch</url>
+
+</package>
+
+

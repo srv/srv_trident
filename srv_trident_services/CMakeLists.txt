@@ -21,12 +21,16 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 #uncomment if you have defined services
 #rosbuild_gensrv()
 
-rosbuild_add_executable(object_identification src/services/object_identification.cpp)
+#rosbuild_add_executable(object_identification src/services/object_identification.cpp)
+rosbuild_add_executable(data_collection src/services/data_collection.cpp)
 
 # unittests
-rosbuild_add_executable(object_identification_test EXCLUDE_FROM_ALL src/test/object_identification_test.cpp)
-rosbuild_add_gtest_build_flags(object_identification_test)
-rosbuild_add_rostest(test/object_identification.test)
+#rosbuild_add_executable(object_identification_test EXCLUDE_FROM_ALL src/test/object_identification_test.cpp)
+rosbuild_add_executable(data_collection_test EXCLUDE_FROM_ALL src/test/data_collection_test.cpp)
+#rosbuild_add_gtest_build_flags(object_identification_test)
+rosbuild_add_gtest_build_flags(data_collection_test)
+#rosbuild_add_rostest(test/object_identification.test)
+rosbuild_add_rostest(test/data_collection.test)
 
 #common commands for building c++ executables and libraries
 #rosbuild_add_library(${PROJECT_NAME} src/example.cpp)

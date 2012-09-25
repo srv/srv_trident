@@ -1,0 +1,8 @@
+<launch>
+
+  <node name="girona500_to_stereo_down_camera" pkg="tf" type="static_transform_publisher"
+    args="0.493564 0.0737869 -0.623661 0.697818 0.0890118 0.705357 -0.0871706 /girona500 /stereo_down_camera 100" />
+          
+
+</launch>
+
