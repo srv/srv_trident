@@ -19,8 +19,7 @@ TEST(CollectDataActionTest, runTest)
     service = mm_client.findService("Data Collection");
     sleep(1);
   } while (service.get() == 0);
-  EXPECT_TRUE(service->status.hasValue(matchmaker::ServiceStatus::AVAILABLE));
-  std::cout << "Service status: " << service->status.toString() << std::endl;
+  EXPECT_TRUE(mm_client.getServiceStatus(service->id).hasValue(matchmaker::ServiceStatus::AVAILABLE));
 
   ROS_INFO_STREAM("Found usable service.");
 
@@ -46,8 +45,6 @@ TEST(CollectDataActionTest, runTest)
   }
   EXPECT_TRUE(mm_client.getServiceStatus(service->id).hasValue(matchmaker::ServiceStatus::ACTIVE_BUSY));
   ROS_INFO("Stopping action.");
-  std::cout << "Service status: " << service->status.toString() << std::endl;
-
   action_client.cancelAllGoals();
   // action should be preempted in less than 3 secs.
   start_time = ros::Time::now();
@@ -55,8 +52,9 @@ TEST(CollectDataActionTest, runTest)
   {
     ros::spinOnce();
   }
-  EXPECT_TRUE(service->status.hasValue(matchmaker::ServiceStatus::AVAILABLE));
+  EXPECT_TRUE(mm_client.getServiceStatus(service->id).hasValue(matchmaker::ServiceStatus::AVAILABLE));
 
+  // look if output bagfile exists
   int status = system("test -s /tmp/collect_data_test.bag");
   EXPECT_EQ(status, 0);
 }
