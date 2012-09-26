@@ -21,8 +21,9 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 #uncomment if you have defined services
 #rosbuild_gensrv()
 
-#rosbuild_add_executable(object_identification src/services/object_identification.cpp)
+rosbuild_add_executable(object_identification src/services/object_identification.cpp)
 rosbuild_add_executable(data_collection src/services/data_collection.cpp)
+rosbuild_add_executable(object_characterization src/services/object_characterization.cpp)
 
 # unittests
 #rosbuild_add_executable(object_identification_test EXCLUDE_FROM_ALL src/test/object_identification_test.cpp)
