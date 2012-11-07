@@ -6,17 +6,16 @@
 #include <matchmaker/client.h>
 
 
-pid_t fork_process(const char *command)
+pid_t fork_process(const char *command, const char *bagfile)
 {
   pid_t pid;
-
   pid = fork();
 
   if (pid < 0)
     return pid;
   else if (pid == 0)
   {
-    execlp("roslaunch", "roslaunch", command, NULL);
+    execlp("roslaunch", "roslaunch", command, bagfile, NULL);
     perror("execl");
     exit(1);
   }
@@ -46,20 +45,21 @@ public:
     std::string soa_service_name;
     nh_priv_.param<std::string>("soa_service_name", soa_service_name, "Data Collection");
     nh_priv_.param<std::string>("rosbag_launch", rosbag_launch_, "");
+    std::cout << rosbag_launch_ << std::endl;
 
     // create the action server
     bool auto_start(false);
     action_server_.reset(
-        new actionlib::SimpleActionServer<auv_msgs::CollectDataAction>(
-          nh_, action_name, auto_start));
+      new actionlib::SimpleActionServer<auv_msgs::CollectDataAction>(
+        nh_, action_name, auto_start));
     action_server_->registerGoalCallback(
-        boost::bind(&DataCollection::goalCallback, this));
+      boost::bind(&DataCollection::goalCallback, this));
     action_server_->registerPreemptCallback(
-        boost::bind(&DataCollection::preemptCallback, this));
+      boost::bind(&DataCollection::preemptCallback, this));
     action_server_->start();
 
     // advertise the service
-    mm_service_ad_ = 
+    mm_service_ad_ =
       mm_client_.advertiseService(soa_service_name, action_name);
 
     ROS_INFO_STREAM("SOA service \"" << soa_service_name << "\" advertised.");
@@ -72,6 +72,11 @@ public:
     action_server_->acceptNewGoal();
     if (!action_server_->isPreemptRequested())
     {
+      //Read the name of the output bagfile.
+      std::string bag_file_output;
+      nh_priv_.param<std::string>("bag_file_output", bag_file_output, "/tmp/collect_data.bag");
+      bagfile_="output:=";
+      bagfile_+=bag_file_output;
       startRecord();
     }
   }
@@ -94,7 +99,7 @@ public:
       return false;
     }
     std::string command = rosbag_launch_;
-    rosbag_process_id_ = fork_process(command.c_str());
+    rosbag_process_id_ = fork_process(command.c_str(),bagfile_.c_str());
     if (rosbag_process_id_ < 0)
     {
       std::string msg("forking rosbag launch failed!");
@@ -143,6 +148,7 @@ private:
   matchmaker::ServiceAdvertiser mm_service_ad_;
   boost::shared_ptr<actionlib::SimpleActionServer<auv_msgs::CollectDataAction> > action_server_;
   std::string rosbag_launch_;
+  std::string bagfile_;
   pid_t rosbag_process_id_;
 
 };
