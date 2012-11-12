@@ -1,0 +1,4 @@
+<launch> 
+  <arg name="output" default="/tmp/collect_data.bag"/> 
+  <node name="record" pkg="rosbag" type="record" args="-a -O '$(arg output)'" output="screen"/> 
+</launch>

@@ -1,4 +1,5 @@
 #include <signal.h>
+#include <ros/package.h>
 #include <actionlib/server/simple_action_server.h>
 
 #include <auv_msgs/CollectDataAction.h>
@@ -44,7 +45,9 @@ public:
     nh_priv_.param<std::string>("action_name", action_name, "collect_data");
     std::string soa_service_name;
     nh_priv_.param<std::string>("soa_service_name", soa_service_name, "Data Collection");
-    nh_priv_.param<std::string>("rosbag_launch", rosbag_launch_, "");
+    std::string def_path = ros::package::getPath("srv_trident_services");
+    def_path+="/test/data/rosbag_launch_test.launch";
+    nh_priv_.param<std::string>("rosbag_launch", rosbag_launch_, def_path);
     std::cout << rosbag_launch_ << std::endl;
 
     // create the action server
