@@ -46,7 +46,8 @@ public:
     std::string soa_service_name;
     nh_priv_.param<std::string>("soa_service_name", soa_service_name, "Data Collection");
     std::string def_path = ros::package::getPath("srv_trident_services");
-    def_path+="/test/data/rosbag_launch_test.launch";
+    def_path+="/test/data/rosbag_data_collection.launch";
+	 ROS_INFO_STREAM(def_path);
     nh_priv_.param<std::string>("rosbag_launch", rosbag_launch_, def_path);
     std::cout << rosbag_launch_ << std::endl;
 
